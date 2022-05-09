@@ -1,25 +1,71 @@
-import logo from './logo.svg';
+import React, {useState} from 'react';
+
 import './App.css';
 
+import Board from './Board';
+import BoardSelector from './BoardSelector';
+import PlayerSelector from './PlayerSelector';
+
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [playerSelected, setPlayerSelected] = useState(false);
+    const [boardSelected, setBoardSelected] = useState(false);
+
+    const renderHeader = () => {
+        return (
+            <header className="App-header">
+              Welcome Ticket To Ride!!!
+            </header>
+        )
+    }
+
+    const handleSelectPlayer = () => {
+        setPlayerSelected(true);
+    }
+
+    const handleChangePlayer = () => {
+        setPlayerSelected(false);
+    }
+
+    const handleSelectBoard = () => {
+        setBoardSelected(true);
+    }
+
+    const handleLeaveBoard = () => {
+        setBoardSelected(false);
+    }
+
+    if(!playerSelected) {
+        return (
+            <div className="App">
+                {renderHeader()}
+                <PlayerSelector
+                    onSelectPlayer={handleSelectPlayer}
+                    onClearPlayer={handleChangePlayer}
+                />
+            </div>
+        )
+    } else if(!boardSelected) {
+        return (
+            <div className="App">
+                {renderHeader()}
+                <BoardSelector
+                    onSelectBoard={handleSelectBoard}
+                    onChangePlayer={handleChangePlayer}
+                />
+            </div>
+        )
+    } else {
+        return (
+            <div className="App">
+                {renderHeader()}
+                <Board
+                    onLeaveBoard={handleLeaveBoard}
+                />
+            </div>
+        )
+    }
+
+
 }
 
 export default App;
