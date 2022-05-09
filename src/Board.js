@@ -4,19 +4,34 @@ import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 
 import {getBoard} from './lib';
+import Players from './Players';
+import ActionArea from './ActionArea';
+
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
 
 const SOCKET_URL = 'http://localhost:8080/ttr-websocket';
 // const SOCKET_URL = 'ws://localhost:8080/ttr-websocket';
 
+
 function Board(props) {
 
     let boardId = null;
+    const [playerId, setPlayerId] = useState(null);
     const [board, setBoard] = useState(null);
     const [refresh, setRefresh]= useState(false);
 
     if(board) {
         boardId = board.boardId;
     }
+
+
+    useEffect(()=>{
+        const localPlayerId = localStorage.getItem("playerId");
+        setPlayerId(localPlayerId);
+    },[])
+
+
 
     useEffect(()=> {
         const fetchBoard = async () => {
@@ -70,39 +85,34 @@ function Board(props) {
     },[boardId])
 
     if(board) {
-        console.log("baord to sid", board);
+
         return (
-            <div>
-                <div>Board : {board.boardName}</div>
+            <Box sx={{ flexGrow: 1 }}>
+                  <Grid container spacing={2}>
+                      <Grid item xs={12}>Board Name : {board.boardName}</Grid>
 
-                <div>Players : {board.players.length < 2 ? "can't start" : "can start"}</div>
-                <div>
-                    PLAYERS:
-                    {
-                        board.players.map((player, index)=>{
-                            return (
-                            <div key={index}>
-                                {player.playerName}
-                                {player.playerId === board.owningPlayerId ? " (Host)" : ""}
-                            </div>
-                            )
-                        })
-                    }
-                </div>
+                      <Grid item xs={12}>
+                          <Grid item xs={12}>
+                              <Grid item xs={12}>Players</Grid>
+                              <Players players={board.players}/>
+                          </Grid>
+                      </Grid>
 
-                {
-                    board.gameState === "Initializing" && (<button
-                        type="submit"
-                        disabled={board.players.length < 2 ? true : false}
-                        onClick={()=>{
-                            // startGame(board.boardId)
-                            // setRefresh(true);
-                        }}>Start</button>)
-                }
+                      <Grid container item xs={12}>
+                          <Grid container item lg={2}>
+                          <ActionArea
+                              playerId={playerId}
+                              board={board}
+                              onLeaveBoard={props.onLeaveBoard}
+                          />
+                          </Grid>
+                          <Grid item lg={10}>
+                              Map Area
+                          </Grid>
+                      </Grid>
 
-                <button type="submit" onClick={()=>{props.onLeaveBoard()}}>Leave</button>
-            </div>
-
+                  </Grid>
+            </Box>
         )
     } else {
         return "Please pass a  board id"

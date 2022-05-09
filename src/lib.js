@@ -84,61 +84,25 @@ export const joinBoard = async (playerId, boardId) => {
     });
 }
 
-// export const createGame = (playerId, boardName) => {
-//     let r = (Math.random() + 1).toString(36).substring(2);
-//
-//     const board = {
-//         boardName: "Keerthi's Board",
-//         boardId: "board2",
-//         gameState: "Playing",
-//         owningPlayerId: "keerthi",
-//         playerId:"sid",
-//         currentPlayerId: "sid",
-//         players:[
-//         ]
-//     }
-//     board.boardId = r;
-//     board.boardName = boardName;
-//
-//     const player = {
-//         playerId:"keerthi",
-//         playerName:"Defautl Name",
-//         playerColor:"yellow",
-//     }
-//     player.playerId = playerId;
-//     board.players.push(player);
-//     boards.push(board);
-//     return board;
-// }
+export const startPlay = async (playerId, boardId) => {
+    return new Promise((resolve, error) => {
+        BoardAPI.put("/boards/" + boardId + "/players/" + playerId + "/start").then(
+            (board)=>{
+                if(board) {
+                    resolve(board);
+                } else {
+                    error("No response");
+                }
+            },
+            (err) => {
+                error(err);
+            }
+        ).catch(ex => {
+            error(ex);
+        });
+    });
+}
 
-
-
-
-// export function startGame(boardId) {
-//     const board =  boards.find(board=>board.boardId === boardId);
-//     if(board) {
-//         board.gameState = "Started";
-//         return board;
-//     }
-// }
-
-// export function joinGame(playerId, boardId) {
-//     const board = boards.find(board=>board.boardId === boardId);
-//     if(board) {
-//
-//         const player = board.players.find(player=>player.playerId === playerId);
-//         if(!player) {
-//             const newPlayer = {
-//                 playerId:"keerthi",
-//                 playerName:"Defautl Name",
-//                 playerColor:"yellow",
-//             }
-//             newPlayer.playerId = playerId;
-//             board.players.push(newPlayer);
-//         }
-//         return board;
-//     }
-// }
 
 export const createPlayer = async (playerName) => {
     return new Promise((resolve, error) => {
