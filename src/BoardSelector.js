@@ -8,8 +8,8 @@ import Stomp from 'stompjs';
 
 import BoardAPI from './boardapi';
 
-const SOCKET_URL = 'http://localhost:8080/ttr-websocket';
-
+// const SOCKET_URL = 'http://localhost:8080/ttr-websocket';
+const SOCKET_URL = 'http://192.168.86.105:8080/ttr-websocket';
 
 function BoardSelector(props) {
 
@@ -203,6 +203,7 @@ function BoardSelector(props) {
                             <tr key={index}>
                                 <td>{board.boardName}</td>
                                 <td>{board.players.length}</td>
+                                <td>{board.gameState}</td>
                                 <td><button type="submit" onClick={()=>{handleAction("join", board.boardId)}}>JOIN</button></td>
                                 <td><button type="submit" onClick={()=>{handleAction("view", board.boardId)}}>VIEW</button></td>
                             </tr>

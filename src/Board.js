@@ -10,8 +10,8 @@ import ActionArea from './ActionArea';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 
-const SOCKET_URL = 'http://localhost:8080/ttr-websocket';
-// const SOCKET_URL = 'ws://localhost:8080/ttr-websocket';
+// const SOCKET_URL = 'http://localhost:8080/ttr-websocket';
+const SOCKET_URL = 'http://192.168.86.105:8080/ttr-websocket';
 
 
 function Board(props) {
@@ -94,7 +94,11 @@ function Board(props) {
                       <Grid item xs={12}>
                           <Grid item xs={12}>
                               <Grid item xs={12}>Players</Grid>
-                              <Players players={board.players}/>
+                              <Players
+                                  players={board.players}
+                                  owningPlayerId={board.owningPlayerId}
+                                  playerId={playerId}
+                              />
                           </Grid>
                       </Grid>
 
