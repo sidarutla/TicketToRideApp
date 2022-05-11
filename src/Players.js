@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 
 
 import Grid from '@mui/material/Grid';
@@ -6,7 +6,7 @@ import Grid from '@mui/material/Grid';
 import Item from './Item';
 
 function Player(props) {
-    const {player, owningPlayerId, playerId} = props;
+    const {player, owningPlayerID, playerID} = props;
 
     return(
 
@@ -15,7 +15,7 @@ function Player(props) {
 
                 <Grid container justifyContent="center">
                     <Grid container justifyContent="center">
-                    {player.playerName} {player.playerId === playerId && "(you)"} {player.playerId === owningPlayerId && " - Host"}
+                    {player.playerName} {player.playerID === playerID && "(you)"} {player.playerID === owningPlayerID && " - Host"}
                     </Grid>
                 </Grid>
 
@@ -41,13 +41,13 @@ function Player(props) {
 
 
 function Players(props) {
-    const {players, owningPlayerId, playerId} = props;
+    const {players, owningPlayerID, playerID} = props;
     return (
         <Grid container xs={12}>
         {
             players.map((player, index)=>{
                 return (
-                    <Player player={player} owningPlayerId={owningPlayerId} playerId={playerId} key={index}/>
+                    <Player player={player} owningPlayerID={owningPlayerID} playerID={playerID} key={index}/>
                 )
             })
         }

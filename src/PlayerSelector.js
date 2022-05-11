@@ -4,22 +4,25 @@ import {createPlayer, getPlayer} from './lib';
 
 function PlayerSelector(props) {
 
-    const [playerId, setPlayerId] = useState(null);
+    const [playerID, setPlayerID] = useState(null);
     const [playerName, setPlayerName] = useState("");
     const [errorMessage, setErrorMessage] = useState(null);
 
     useEffect(()=>{
         const init = async () => {
-            const localPlayerId = localStorage.getItem("playerId");
+            const localPlayerID = localStorage.getItem("playerID");
             const localPlayerName = localStorage.getItem("playerName");
-            if(!localPlayerId || !localPlayerName || localPlayerName.trim().length === 0) {
-                setPlayerId(null);
+
+            console.log("aaa", localPlayerID, localPlayerName)
+            if(!localPlayerID || !localPlayerName || localPlayerName.trim().length === 0) {
+                setPlayerID(null);
                 setPlayerName("")
             } else {
                 try {
-                    const player = await getPlayer(localPlayerId);
+                    const player = await getPlayer(localPlayerID);
+                    console.log("...renote", player);
                     if(player) {
-                        setPlayerId(player.playerId);
+                        setPlayerID(player.playerID);
                         setPlayerName(player.playerName);
                     }
                 }catch(err) {
@@ -31,16 +34,17 @@ function PlayerSelector(props) {
     },[])
 
     const hasPlayerInfo = () => {
-        if(!playerId || !playerName || playerName.trim().length === 0) {
+        console.log("hasplayerinf", playerID, playerName);
+        if(!playerID || !playerName || playerName.trim().length === 0) {
             return false;
         }
         return true;
     }
 
     const handleClearPlayer = () => {
-        localStorage.removeItem("playerId");
+        localStorage.removeItem("playerID");
         localStorage.removeItem("playerName");
-        setPlayerId(null);
+        setPlayerID(null);
         setPlayerName("");
         props.onClearPlayer();
     }
@@ -49,7 +53,7 @@ function PlayerSelector(props) {
         try {
             const player = await createPlayer(playerName);
             if(player) {
-                localStorage.setItem("playerId", player.playerId);
+                localStorage.setItem("playerID", player.playerID);
                 localStorage.setItem("playerName", player.playerName);
                 props.onSelectPlayer();
             }else{

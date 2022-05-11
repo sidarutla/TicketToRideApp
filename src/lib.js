@@ -21,9 +21,9 @@ export const getBoards = async () => {
 }
 
 
-export const getBoard = async (boardId) => {
+export const getBoard = async (boardID) => {
     return new Promise((resolve, error) => {
-        BoardAPI.get("/boards/" + boardId).then(
+        BoardAPI.get("/boards/" + boardID).then(
             (board)=>{
                 if(board) {
                     resolve(board);
@@ -40,12 +40,12 @@ export const getBoard = async (boardId) => {
     });
 }
 
-export const createBoard = async (playerId, boardName) => {
+export const createBoard = async (playerID, boardName) => {
 
     return new Promise((resolve, error) => {
         const values = {
             boardName,
-            playerId
+            playerID
         }
 
         BoardAPI.post("/boards", values).then(
@@ -65,9 +65,9 @@ export const createBoard = async (playerId, boardName) => {
     });
 }
 
-export const joinBoard = async (playerId, boardId) => {
+export const joinBoard = async (playerID, boardID) => {
     return new Promise((resolve, error) => {
-        BoardAPI.post("/boards/" + boardId + "/players/" + playerId).then(
+        BoardAPI.post("/boards/" + boardID + "/players/" + playerID).then(
             (board)=>{
                 if(board) {
                     resolve(board);
@@ -84,9 +84,9 @@ export const joinBoard = async (playerId, boardId) => {
     });
 }
 
-export const startPlay = async (playerId, boardId) => {
+export const startPlay = async (playerID, boardID) => {
     return new Promise((resolve, error) => {
-        BoardAPI.put("/boards/" + boardId + "/players/" + playerId + "/start").then(
+        BoardAPI.put("/boards/" + boardID + "/players/" + playerID + "/start").then(
             (board)=>{
                 if(board) {
                     resolve(board);
@@ -104,9 +104,48 @@ export const startPlay = async (playerId, boardId) => {
 }
 
 
-export const createPlayer = async (playerName) => {
+export const pickPlay = async (playerID, boardID, playType) => {
     return new Promise((resolve, error) => {
-        BoardAPI.post("/players/" + playerName).then(
+        BoardAPI.put("/boards/" + boardID + "/players/" + playerID + "/play/" + playType).then(
+            (board)=>{
+                if(board) {
+                    resolve(board);
+                } else {
+                    error("No response");
+                }
+            },
+            (err) => {
+                error(err);
+            }
+        ).catch(ex => {
+            error(ex);
+        });
+    });
+}
+
+export const returnTickets = async (playerID, boardID, ticketIDs) => {
+    return new Promise((resolve, error) => {
+        BoardAPI.put("/boards/" + boardID + "/players/" + playerID + "/play/return-tickets/" + ticketIDs.join()).then(
+            (board)=>{
+                if(board) {
+                    resolve(board);
+                } else {
+                    error("No response");
+                }
+            },
+            (err) => {
+                error(err);
+            }
+        ).catch(ex => {
+            error(ex);
+        });
+    });
+}
+
+
+export const createPlayer = async (name) => {
+    return new Promise((resolve, error) => {
+        BoardAPI.post("/players/" + name).then(
             (player)=>{
                 if(player) {
                     resolve(player);
@@ -124,9 +163,9 @@ export const createPlayer = async (playerName) => {
 }
 
 
-export const getPlayer = async (playerId) => {
+export const getPlayer = async (playerID) => {
     return new Promise((resolve, error) => {
-        BoardAPI.get("/players/" + playerId).then(
+        BoardAPI.get("/players/" + playerID).then(
             (player)=>{
                 if(player) {
                     resolve(player);

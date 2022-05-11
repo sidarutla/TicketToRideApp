@@ -6,15 +6,13 @@ import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 
 
-import BoardAPI from './boardapi';
-
 // const SOCKET_URL = 'http://localhost:8080/ttr-websocket';
 const SOCKET_URL = 'http://192.168.86.105:8080/ttr-websocket';
 
 function BoardSelector(props) {
 
-    const [playerId, setPlayerId] = useState(null);
-    // const [boardId, setBoardId] = useState(null);
+    const [playerID, setPlayerID] = useState(null);
+    // const [boardID, setBoardID] = useState(null);
     const [boardName, setBoardName] = useState("");
     const [errorMessage, setErrorMessage] = useState(null);
 
@@ -31,7 +29,7 @@ function BoardSelector(props) {
             return board;
         })
         const boardIndex = newBoards.findIndex(board=>{
-            return board.boardId === newBoard.boardId;
+            return board.boardID === newBoard.boardID;
         })
         if(boardIndex > 0) {
             newBoards[boardIndex] = newBoard;
@@ -62,9 +60,9 @@ function BoardSelector(props) {
 
 
     useEffect(()=>{
-        const localPlayerId = localStorage.getItem("playerId");
-        if(localPlayerId) {
-            setPlayerId(localPlayerId);
+        const localplayerID = localStorage.getItem("playerID");
+        if(localplayerID) {
+            setPlayerID(localplayerID);
         }
     },[])
 
@@ -86,48 +84,48 @@ function BoardSelector(props) {
     },[])
 
 
-    const handleAction = async (action, boardId) => {
-        //action can be view, -- boardId is needed
-        //action can be created -- playerName is required.
-        //action can be join  -- boardId and playerName required.
+    const handleAction = async (action, boardID) => {
+        //action can be view, -- boardID is needed
+        //action can be created -- name is required.
+        //action can be join  -- boardID and name required.
         //connect to server if join, or created...
         setErrorMessage(null);
 
 
         if(action === "create") {
-            if(!playerId) {
+            if(!playerID) {
                 setErrorMessage("Player registration is mission. Click on change user and register as a new user.")
             } else if(!boardName || boardName.trim().length === 0) {
                     setErrorMessage("Enter a board name to crate a board.")
             } else {
 
                 try {
-                    const board = await createBoard(playerId, boardName);
+                    const board = await createBoard(playerID, boardName);
                     if(board) {
-                        localStorage.setItem("boardId", board.boardId);
-                        props.onSelectBoard(board.boardId);
+                        localStorage.setItem("boardID", board.boardID);
+                        props.onSelectBoard(board.boardID);
                     }
                 }catch(err) {
                     setErrorMessage("error creating board " + err);
                 }
             }
         } else if(action === "join") {
-            if(!boardId) {
+            if(!boardID) {
                 setErrorMessage("Please select a valid board")
             } else {
 
                 try {
-                    const board = await joinBoard(playerId, boardId);
-                    localStorage.setItem("boardId", board.boardId);
-                    props.onSelectBoard(board.boardId);
+                    const board = await joinBoard(playerID, boardID);
+                    localStorage.setItem("boardID", board.boardID);
+                    props.onSelectBoard(board.boardID);
                 }catch(err) {
                     setErrorMessage("Error joining the board");
                 }
             }
         } else if(action === "view") {
-            if(boardId) {
-                localStorage.setItem("boardId", boardId);
-                props.onSelectBoard(boardId);
+            if(boardID) {
+                localStorage.setItem("boardID", boardID);
+                props.onSelectBoard(boardID);
             } else {
                 setErrorMessage("Board Id is required to view a game")
             }
@@ -136,31 +134,31 @@ function BoardSelector(props) {
         //
         //
         // if(action === "view") {
-        //     if(boardId) {
+        //     if(boardID) {
         //         //TODO: check if this is a valid board.
-        //         props.onSelectBoard(boardId);
+        //         props.onSelectBoard(boardID);
         //     } else {
         //         setErrorMessage("Board Id is required to view a game")
         //     }
         // } else if(action === "join") {
-        //     if(!playerName || !boardId) {
+        //     if(!name || !boardID) {
         //         setErrorMessage("Board Id and Player Name are required to join a game")
         //     } else {
         //         //TODO: join the boardd..
-        //         //TODO: store the playerId in local storage
+        //         //TODO: store the playerID in local storage
         //         //TODO: call onSelectBoard.
-        //         props.onSelectBoard(boardId);
+        //         props.onSelectBoard(boardID);
         //     }
         // } else if(action === "create") {
-        //     if(!playerName) {
+        //     if(!name) {
         //         setErrorMessage("Player name requierd to create a new board.")
         //     } else {
         //         const board = createGame("sid");
-        //         setBoardId(board.boardId);
-        //         props.onSelectBoard(board.boardId);
-        //         //TODO: create the boared and get playerId and boardId.
-        //         //TODO: store the playerId in local storage
-        //         //TODO: call onSelectBoard with boardId
+        //         setBoardID(board.boardID);
+        //         props.onSelectBoard(board.boardID);
+        //         //TODO: create the boared and get playerID and boardID.
+        //         //TODO: store the playerID in local storage
+        //         //TODO: call onSelectBoard with boardID
         //     }
         // }
     }
@@ -204,8 +202,8 @@ function BoardSelector(props) {
                                 <td>{board.boardName}</td>
                                 <td>{board.players.length}</td>
                                 <td>{board.gameState}</td>
-                                <td><button type="submit" onClick={()=>{handleAction("join", board.boardId)}}>JOIN</button></td>
-                                <td><button type="submit" onClick={()=>{handleAction("view", board.boardId)}}>VIEW</button></td>
+                                <td><button type="submit" onClick={()=>{handleAction("join", board.boardID)}}>JOIN</button></td>
+                                <td><button type="submit" onClick={()=>{handleAction("view", board.boardID)}}>VIEW</button></td>
                             </tr>
                         )
                     })
