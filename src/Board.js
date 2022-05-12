@@ -116,7 +116,7 @@ function Board(props) {
                               onLeaveBoard={props.onLeaveBoard}
                           />
                           </Grid>
-                          <Grid item lg={10}>
+                          <Grid item lg={10} style={{paddingTop:"30px"}}>
                               <MapArea
                                   playerID={playerID}
                                   board={board}

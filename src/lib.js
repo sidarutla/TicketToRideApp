@@ -125,7 +125,30 @@ export const pickPlay = async (playerID, boardID, playType) => {
 
 export const returnTickets = async (playerID, boardID, ticketIDs) => {
     return new Promise((resolve, error) => {
-        BoardAPI.put("/boards/" + boardID + "/players/" + playerID + "/play/return-tickets/" + ticketIDs.join()).then(
+
+        const input = {ticketIDs:ticketIDs}
+
+
+        BoardAPI.put("/boards/" + boardID + "/players/" + playerID + "/play/return-tickets", input).then(
+            (board)=>{
+                if(board) {
+                    resolve(board);
+                } else {
+                    error("No response");
+                }
+            },
+            (err) => {
+                error(err);
+            }
+        ).catch(ex => {
+            error(ex);
+        });
+    });
+}
+
+export const drawCard = async (playerID, boardID, cardIndex) => {
+    return new Promise((resolve, error) => {
+        BoardAPI.put("/boards/" + boardID + "/players/" + playerID + "/play/draw-card/" + cardIndex).then(
             (board)=>{
                 if(board) {
                     resolve(board);
