@@ -43,7 +43,7 @@ function Player(props) {
 function Players(props) {
     const {players, owningPlayerID, playerID} = props;
     return (
-        <Grid container xs={12}>
+        <Grid container item xs={12}>
         {
             players.map((player, index)=>{
                 return (
