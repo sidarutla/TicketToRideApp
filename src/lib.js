@@ -166,6 +166,29 @@ export const drawCard = async (playerID, boardID, cardIndex) => {
 }
 
 
+export const buildTrack = async (playerID, boardID, connectionID, locosToUse, colorToUse) => {
+
+    const input = {connectionID:connectionID, locosToUse:locosToUse, colorToUse:colorToUse}
+
+    return new Promise((resolve, error) => {
+        BoardAPI.put("/boards/" + boardID + "/players/" + playerID + "/play/build-track", input).then(
+            (board)=>{
+                if(board) {
+                    resolve(board);
+                } else {
+                    error("No response");
+                }
+            },
+            (err) => {
+                error(err);
+            }
+        ).catch(ex => {
+            error(ex);
+        });
+    });
+}
+
+
 export const createPlayer = async (name) => {
     return new Promise((resolve, error) => {
         BoardAPI.post("/players/" + name).then(

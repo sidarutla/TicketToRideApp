@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 
 import Grid from '@mui/material/Grid';
 
-import {startPlay, pickPlay, returnTickets, drawCard} from './lib';
+import {startPlay, pickPlay, returnTickets, drawCard, buildTrack} from './lib';
 import {getCurrentPlayer, getPlayer} from './boardutil'
 
 
@@ -181,6 +181,99 @@ function DrawCard(props) {
 }
 
 
+
+function BuildTrack(props) {
+    const {board, playerID} = props;
+    const [connectionID, setConnectionID] = useState(null);
+    const [locosToUse, setLocosToUse] = useState(0);
+    const [colorToUse, setColorTouse] = useState(null);
+
+    const connections = board.connections.map((connection)=>{
+        const name = connection.source + " - " + connection.destination + " (Tracks: " + connection.pathway1.tracks  + "  Color: " + connection.pathway1.color + ")"
+        const value = connection.connectionID;
+        const isAvailable = (connection.pathway1 != null && connection.pathway1.open) ||  (connection.pathway2 != null && connection.pathway2.open)
+        return {
+            name,
+            value,
+            isAvailable
+        };
+    })
+
+    const currentPlayer = getCurrentPlayer(board);
+    const cardsByColor = currentPlayer.cards.reduce((map, card)=>{
+        if(map[card.gameColor] != null) {
+            map[card.gameColor] = map[card.gameColor] + 1;
+        } else {
+            map[card.gameColor] = 1;
+        }
+        return map;
+    },{})
+
+    const availableColors = Object.keys(cardsByColor);
+
+
+
+    const handleBuildTrack = () =>{
+        if(!connectionID) {
+            return;
+        }
+        buildTrack(playerID, board.boardID, connectionID, locosToUse, colorToUse);
+    }
+
+    return (
+        <Grid item container xs={12} justifyContent="center">
+
+            <Grid item contianer xs={12}>
+                Select the route to claim:
+            </Grid>
+
+            <Grid item continaer xs={12}>
+                    <Grid item>
+                        <label htmlFor="connectionID">Select a route:</label>
+                        <select name="connectionID" id="connectionID">
+                            {
+                                connections.map((connection, index)=>{
+                                    return (
+                                        <option key={connection.connectionID}  value={connection.connectionID} disabled={!connection.isAvailable}>{connection.name}</option>
+                                    )
+                                })
+                            }
+                        </select>
+                    </Grid>
+
+                    <Grid item>
+                        <label htmlFor={"locosToUse"}>{"Locos To Use:"}</label>
+                        <input type="text" id={"locosToUse"} name={"locosToUse"} value={locosToUse} onChange={(event)=>setLocosToUse(event.target.value)}/>
+                    </Grid>
+
+                    <Grid item>
+                        <label htmlFor={"colorToUse"}>{"Color To Use:"}</label>
+                        <select name="colorToUse" id="colorToUse">
+                            {
+                                availableColors.map((color)=>{
+                                    return (
+                                        <option key={color} value={color}>{color}</option>
+                                    )
+                                })
+                            }
+                        </select>
+                    </Grid>
+
+            </Grid>
+
+            <Grid item contianer xs={12}>
+                <button
+                  type="submit"
+                  disabled = {!connectionID}
+                  onClick={()=>{handleBuildTrack()}}>
+                  Claim Route
+                </button>
+            </Grid>
+        </Grid>
+    )
+}
+
+
 function Cards(props) {
     const {board, playerID} = props;
     const {fiveOpenCards} = board;
@@ -219,6 +312,7 @@ function PlayActions(props) {
         return (<DrawCard board={board} playerID={playerID}/>)
     } else if(board.currentPlayType === "buildTracks") {
         //show a way to pick open track and select cards needed and submit.
+        return (<BuildTrack board={board} playerID={playerID}/>)
     }
     return null;
 }
