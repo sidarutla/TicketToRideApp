@@ -70,14 +70,11 @@ function Board(props) {
             var sock = new SockJS(SOCKET_URL);
             let stompClient = Stomp.over(sock);
             sock.onopen = function() {
-                // console.log('open');
             }
             stompClient.connect({}, function (frame) {
-                // console.log('Connected: ' + frame);
                 stompClient.subscribe('/topic/' + boardID, function (message) {
                     if (message.body) {
                        var jsonBody = JSON.parse(message.body);
-                       console.log("Updated Board: ", jsonBody);
                        setBoard(jsonBody)
                    }
                });

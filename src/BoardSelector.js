@@ -46,12 +46,9 @@ function BoardSelector(props) {
         let stompClient = Stomp.over(sock);
 
         sock.onopen = function() {
-            // console.log('open');
         }
         stompClient.connect({}, function (frame) {
-            // console.log('Connected: ' + frame);
             stompClient.subscribe('/topic/boards', function (message) {
-                console.log("Board changed: ", message);
                 if (message.body) {
                    var newBoard = JSON.parse(message.body);
                    updateBoards(newBoard);
@@ -72,9 +69,7 @@ function BoardSelector(props) {
     useEffect(()=>{
         const fetchBoards = async () => {
             try {
-                console.log("seq", 1);
                 const boards = await getBoards();
-                console.log("seq", 3);
                 if(boards) {
                     setBoards(boards);
                 }

@@ -71,7 +71,6 @@ function BuildTrack(props) {
         }
 
         setErrorMessage(null);
-        console.log("Building track", connectionID, colorToUse, useLocos);
         buildTrack(playerID, board.boardID, connectionID, colorToUse, useLocos);
     }
 

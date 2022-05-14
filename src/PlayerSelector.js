@@ -13,14 +13,12 @@ function PlayerSelector(props) {
             const localPlayerID = localStorage.getItem("playerID");
             const localPlayerName = localStorage.getItem("playerName");
 
-            console.log("aaa", localPlayerID, localPlayerName)
             if(!localPlayerID || !localPlayerName || localPlayerName.trim().length === 0) {
                 setPlayerID(null);
                 setPlayerName("")
             } else {
                 try {
                     const player = await getPlayer(localPlayerID);
-                    console.log("...renote", player);
                     if(player) {
                         setPlayerID(player.playerID);
                         setPlayerName(player.playerName);
@@ -34,7 +32,6 @@ function PlayerSelector(props) {
     },[])
 
     const hasPlayerInfo = () => {
-        console.log("hasplayerinf", playerID, playerName);
         if(!playerID || !playerName || playerName.trim().length === 0) {
             return false;
         }

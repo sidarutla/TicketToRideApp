@@ -31,7 +31,6 @@ function ReturnTickets(props) {
         const maxTickets = board.round === 1 ? 1 : 2;
 
         const returnTicketIds = ticketList.filter(ticket=>ticket.selected).map(ticket=>ticket.ticketID);
-        console.log("...", returnTicketIds)
 
         if(returnTicketIds.length > maxTickets) {
             setErrorMessage("You can return only " + maxTickets + " ticket(s)...")
