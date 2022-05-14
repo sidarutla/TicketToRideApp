@@ -1,4 +1,5 @@
 
+import AppConfig from './config'
 
 function buildFormError(json) {
 	const errorMessage = json.error ? json.error : "unknown error";
@@ -14,11 +15,7 @@ function buildResponseProcessingError(message) {
 }
 
 
-// const BOARD_API_URL = "http://localhost:8080";
-const BOARD_API_URL = "http://192.168.86.105:8080";
-
-
-
+const BOARD_API_URL = AppConfig.TTR_URL;
 
 class BoardAPI {
 	static sleep (time) {

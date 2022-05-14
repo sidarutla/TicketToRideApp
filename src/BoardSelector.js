@@ -2,12 +2,14 @@ import React, {useEffect, useState, useRef} from 'react';
 
 import {getBoards, createBoard, joinBoard} from './lib';
 
+import AppConfig from './config'
+
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 
 
-// const SOCKET_URL = 'http://localhost:8080/ttr-websocket';
-const SOCKET_URL = 'http://192.168.86.105:8080/ttr-websocket';
+const SOCKET_URL = AppConfig.SOCKET_URL;
+
 
 function BoardSelector(props) {
 

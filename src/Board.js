@@ -3,6 +3,8 @@ import React, {useEffect, useState} from 'react';
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 
+import AppConfig from './config'
+
 import {getBoard} from './lib';
 import Players from './Players';
 import ActionArea from './ActionArea';
@@ -11,9 +13,7 @@ import MapArea from './MapArea';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 
-// const SOCKET_URL = 'http://localhost:8080/ttr-websocket';
-const SOCKET_URL = 'http://192.168.86.105:8080/ttr-websocket';
-
+const SOCKET_URL = AppConfig.SOCKET_URL;
 
 function Board(props) {
 
