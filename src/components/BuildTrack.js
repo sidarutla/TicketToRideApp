@@ -4,7 +4,7 @@ import Grid from '@mui/material/Grid';
 
 import {getCurrentPlayer, getCardsCountByColor} from '../boardutil'
 
-import {buildTrack, changePlayType} from '../lib';
+import {buildTrack, resetPlayType} from '../lib';
 
 
 function BuildTrack(props) {
@@ -12,26 +12,53 @@ function BuildTrack(props) {
 
     const [errorMessage, setErrorMessage] = useState(null);
     const [connectionID, setConnectionID] = useState("");
-    const [connection, setConnection] = useState(null);
+    const [pathwayID, setPathwayID] = useState("");
+    const [pathway, setPathway] = useState(null);
     const [useLocos, setUseLocos] = useState(false);
     const [colorToUse, setColorToUse] = useState("");
     const [showColorToUse, setShowColorToUse] = useState(false);
 
-    const connectionOptions = board.connections.map((connection)=>{
-        const label = connection.source + " - " + connection.destination + " (Tracks: " + connection.pathway1.tracks  + "  Color: " + connection.pathway1.color + ")"
-        const value = connection.connectionID;
-        const isAvailable = (connection.pathway1 != null && connection.pathway1.open) ||  (connection.pathway2 != null && connection.pathway2.open)
-        return {
-            label,
-            value,
-            isAvailable:true,
-        };
+    const connectionOptions = board.connections.flatMap((connection)=>{
+        const pathways = [];
+
+        const label = connection.source + " - " + connection.destination;
+
+        if(connection.pathway1 != null) {
+            const colorLabel = " (Tracks: " + connection.pathway1.tracks  + "  Color: " + connection.pathway1.color + ")"
+            pathways.push(
+                {
+                    label: label + colorLabel,
+                    value: connection.pathway1.pathwayID,
+                    isAvailable: connection.pathway1.gamePlayer == null
+                }
+            )
+        }
+        if(connection.pathway2 != null) {
+            const colorLabel = " (Tracks: " + connection.pathway2.tracks  + "  Color: " + connection.pathway2.color + ")"
+            pathways.push(
+                {
+                    label: label + colorLabel,
+                    value: connection.pathway2.pathwayID,
+                    isAvailable: connection.pathway2.gamePlayer == null
+                }
+            )
+        }
+        return pathways;
+
+        //
+        //
+        // const value = connection.connectionID;
+        // const isAvailable = (connection.pathway1 != null && connection.pathway1.open) ||  (connection.pathway2 != null && connection.pathway2.open)
+        // return {
+        //     label,
+        //     value,
+        //     isAvailable:true,
+        // };
     })
     connectionOptions.unshift({label:"Select a connection", value:"", isAvailable:true})
 
     const currentPlayer = getCurrentPlayer(board);
     const cardsByColor = getCardsCountByColor(currentPlayer.cards);
-
 
     const availableColors = Object.keys(cardsByColor).filter(color=>color!=="any").map((color)=>{
         return {
@@ -41,23 +68,23 @@ function BuildTrack(props) {
     });
     availableColors.unshift({label:"Select a color", value:""})
 
-    const handleChangePlayType = () =>{
-        changePlayType(playerID, board.boardID);
+    const handleResetPlayType = () =>{
+        resetPlayType(playerID, board.boardID);
     }
 
     const handleBuildTrack = () =>{
-        if(!connectionID || connectionID.trim().lenght === 0) {
+        if(!connectionID || connectionID.trim().lenght === 0 || !pathwayID || pathwayID.trim().length === 0) {
             setErrorMessage("select a connection");
             return;
         }
 
-        if(connection.pathway1.color === "any" && (!colorToUse || colorToUse.trim().length === 0)) {
+        if(pathway.color === "any" && (!colorToUse || colorToUse.trim().length === 0)) {
             setErrorMessage("select a color to use");
             return;
         }
 
-        const colorNeeded = connection.pathway1.color === "any" ? colorToUse : connection.pathway1.color;
-        const tracksNeeded = connection.pathway1.tracks;
+        const colorNeeded = pathway.color === "any" ? colorToUse : pathway.color;
+        const tracksNeeded = pathway.tracks;
         let hasCards = cardsByColor[colorNeeded] ? cardsByColor[colorNeeded] : 0;
 
         if(useLocos) {
@@ -71,14 +98,32 @@ function BuildTrack(props) {
         }
 
         setErrorMessage(null);
-        buildTrack(playerID, board.boardID, connectionID, colorToUse, useLocos);
+        buildTrack(playerID, board.boardID, connectionID, pathwayID, colorToUse, useLocos);
     }
 
     const handleConnectionChange = (value) => {
-        setConnectionID(value);
-        const theConnection = board.connections.find(connection=>connection.connectionID===value);
-        setConnection(theConnection);
-        if(theConnection && theConnection.pathway1.color === "any") {
+        const theConnection = board.connections.find(c=>{
+            if(c.pathway1 != null && c.pathway1.pathwayID === value) {
+                return true;
+            }
+            if(c.pathway2 != null && c.pathway2.pathwayID === value) {
+                return true;
+            }
+            return false;
+        });
+        let thePathway = null;
+        if(theConnection && theConnection.pathway1 && theConnection.pathway1.pathwayID === value) {
+            thePathway = theConnection.pathway1;
+        }
+        if(!thePathway && theConnection && theConnection.pathway2 && theConnection.pathway2.pathwayID === value) {
+            thePathway = theConnection.pathway2;
+        }
+
+        setPathwayID(value);
+        setConnectionID(theConnection.connectionID);
+        setPathway(thePathway);
+
+        if(thePathway && thePathway.color === "any") {
             setShowColorToUse(true);
         } else {
             setShowColorToUse(false);
@@ -100,7 +145,7 @@ function BuildTrack(props) {
             <Grid item xs={12}>
                     <Grid item xs={12}>
                         <label htmlFor="connectionID">Select a route:</label>
-                        <select name="connectionID" id="connectionID" value={connectionID} onChange={(event)=>{handleConnectionChange(event.target.value)}}>
+                        <select name="connectionID" id="connectionID" value={pathwayID} onChange={(event)=>{handleConnectionChange(event.target.value)}}>
                             {
                                 connectionOptions.map((connection, index)=>{
                                     return (
@@ -144,7 +189,7 @@ function BuildTrack(props) {
 
                 <button
                   type="submit"
-                  onClick={()=>{handleChangePlayType()}}>
+                  onClick={()=>{handleResetPlayType()}}>
                   Change Play Type
                 </button>
             </Grid>
