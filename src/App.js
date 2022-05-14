@@ -13,7 +13,7 @@ function App() {
     const renderHeader = () => {
         return (
             <header className="App-header">
-              Welcome Ticket To Ride!!!
+              Ticket To Ride!!!
             </header>
         )
     }
