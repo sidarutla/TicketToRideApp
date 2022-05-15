@@ -50,7 +50,7 @@ function Pathway(props) {
 
 function MapArea(props) {
 
-    const drawingMode = true;
+    const drawingMode = false;
 
     const width = 900;
     const height = 600
