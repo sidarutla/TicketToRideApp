@@ -33,7 +33,7 @@ function BoardSelector(props) {
         const boardIndex = newBoards.findIndex(board=>{
             return board.boardID === newBoard.boardID;
         })
-        if(boardIndex > 0) {
+        if(boardIndex >= 0) {
             newBoards[boardIndex] = newBoard;
         } else {
             newBoards.push(newBoard);
