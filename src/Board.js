@@ -98,8 +98,7 @@ function Board(props) {
                               }
 
                               <Players
-                                  players={board.players}
-                                  owningPlayerID={board.owningPlayerID}
+                                  board={board}
                                   playerID={playerID}
                               />
                           </Grid>
