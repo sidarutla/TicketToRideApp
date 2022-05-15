@@ -125,9 +125,10 @@ function BuildTrack(props) {
 
         if(thePathway && thePathway.color === "any") {
             setShowColorToUse(true);
+            setColorToUse("");
         } else {
             setShowColorToUse(false);
-            setColorToUse("");
+            setColorToUse(thePathway.color);
         }
     }
 
