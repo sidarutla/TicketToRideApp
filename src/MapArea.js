@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 
 import { Stage, Layer, Rect, Circle} from 'react-konva';
@@ -51,13 +51,12 @@ function Pathway(props) {
 function MapArea(props) {
 
     const drawingMode = false;
+    const [points, setPoints] = useState([]);
+    const [tracks, setTracks] = useState([]);
 
     const width = 900;
     const height = 600
-
     const {board} = props;
-
-
 
     let occupiedPaths = board.connections.flatMap(connection=>{
         const occupiedPaths = [];
@@ -86,65 +85,39 @@ function MapArea(props) {
     if(!occupiedPaths) {
         occupiedPaths = [];
     }
-    // console.log("....", occupiedPaths);
-    // const {cities} = board;
-
-    // const cities = [{
-    //         name:"a",
-    //         x:71,
-    //         y:63,
-    //     },
-    //     {
-    //         name:"b",
-    //         x:193,
-    //         y:46,
-    //     }
-    // ]
-    //
-    // const tracks = [
-    //     {
-    //         x1:84,
-    //         y1:60,
-    //         x2:114,
-    //         y2:58,
-    //     },
-    //     {
-    //         x1:119,
-    //         y1:57,
-    //         x2:148,
-    //         y2:53,
-    //     },
-    //     {
-    //         x1:154,
-    //         y1:53,
-    //         x2:184,
-    //         y2:50,
-    //     }
-    // ]
 
     return (
-      <Grid container justifyContent="center" spacing={2} onClick={(event)=>{console.log("...", event.nativeEvent.layerX, event.nativeEvent.layerY)}}>
+      <Grid container justifyContent="center" spacing={2} onClick={(event)=>{
+              if(!drawingMode){
+                  return;
+              }
+              if(event.detail === 2) {
+                  setTimeout(()=>{
+                      setPoints([]);
+                      setTracks([]);
+                  }, 300);
+                  return;
+              } else {
+                  let newPoints = [...points]
+                  newPoints.push(event.nativeEvent.layerX)
+                  newPoints.push(event.nativeEvent.layerY)
+                  if(newPoints.length >= 4) {
+                      const str = "[" + newPoints.join() +"]"
+
+                      let newTracks = [...tracks];
+                      newTracks.push(str);
+                      setTracks(newTracks);
+
+                      newPoints = [];
+                      console.log(newTracks.join());
+                  }
+                  setPoints(newPoints);
+              }
+          }}>
       <Stage width={width} height={height} style={{backgroundImage:"url(board.png)", backgroundSize:"contain"}}>
       <Layer>
       {
           <>
-          {
-              // <Rect y={10} x={0} width={35} height={10} rotation={10} fill="red" />
-              // <Rect y={16} x={38} width={35} height={10} rotation={30} fill="red" />
-              // <Rect y={35} x={72} width={35} height={10} rotation={45} fill="red" />
-
-          }
-
-          {
-              // cities.map((city, index)=>{
-              //     const x = city.point[0];
-              //     const y = city.point[1];
-              //     return (
-              //         <Circle key={index} x={x} y={y} stroke="black" radius={5} />
-              //     )
-              // })
-          }
-
           {
               occupiedPaths.map((occupiedPath, index)=>{
                   return (
@@ -152,7 +125,6 @@ function MapArea(props) {
                   )
               })
           }
-
           </>
       }
       </Layer>
