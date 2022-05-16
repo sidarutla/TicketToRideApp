@@ -18,7 +18,7 @@ function Track(props) {
     const x = x1;
     const y = y1;
     return (
-         <Rect y={y} x={x} width={30} height={10} rotation={angleDeg} fill={color} />
+         <Rect y={y} x={x} width={40} height={15} rotation={angleDeg} fill={color} />
     )
 }
 
