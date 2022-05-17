@@ -20,7 +20,7 @@ function PlayerCards(props) {
                     Object.keys(cardsCountByColor).map((key, index)=>{
                         return (
                             <Grid item key={index}>
-                                <img src={key + ".jpg"} width="40"/>
+                                <img src={key + ".jpg"} width="25"/>
                                 <Grid>
                                 {cardsCountByColor[key]}
                                 </Grid>

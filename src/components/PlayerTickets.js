@@ -13,17 +13,21 @@ function PlayerTickets(props) {
 
 
     return (
-        <Grid item container xs={12} justifyContent="flex-start" style={{paddingTop:"30px"}}>
-            Your Tickets:
+        <Grid item container xs={12} direction="row" style={{paddingTop:"30px"}}>
+            <Grid item xs={12}>
+                Your Tickets:
+            </Grid>
+            <Grid item container xs={12} justifyContent="center">
             {
                 thePlayer.tickets.map((ticket, index)=>{
                 return (
-                    <Grid item container key={index} xs={12}>
+                    <Grid item key={index} xs={12}>
                         {ticket.source} - {ticket.destination}: {ticket.value}
                     </Grid>
                 )
                 })
             }
+            </Grid>
         </Grid>
     )
 }
