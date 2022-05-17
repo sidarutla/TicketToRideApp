@@ -29,13 +29,21 @@ function ReturnTickets(props) {
 
     const handleReturnTickets = () =>{
         const maxTickets = board.round === 1 ? 1 : 2;
-
         const returnTicketIds = ticketList.filter(ticket=>ticket.selected).map(ticket=>ticket.ticketID);
 
         if(returnTicketIds.length > maxTickets) {
             setErrorMessage("You can return only " + maxTickets + " ticket(s)...")
         } else {
-            returnTickets(playerID, board.boardID, returnTicketIds)
+            let message = "";
+            if(returnTicketIds.length === 0) {
+                message = "Are you sure you don't want to return any tickets?"
+            } else {
+                message = "Are you sure you  want to return " + returnTicketIds.length + " ticket(s)?"
+            }
+            let result = confirm(message);
+            if(result) {
+                returnTickets(playerID, board.boardID, returnTicketIds)
+            }
         }
     }
 
