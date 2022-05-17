@@ -9,7 +9,7 @@ function Winner(props) {
     const {players} = board;
 
     const leaderBoard = players.sort((gp1, gp2)=>{
-        return (gp1.score - gp2.score);
+        return (gp2.score - gp1.score);
     })
 
     const maxFontSize = 50;
