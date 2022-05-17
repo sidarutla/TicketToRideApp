@@ -8,7 +8,7 @@ function PlayStatus(props) {
     return (
         <div>
             <div>
-                Current Palyer : {currentPlayer.playerName}
+                Current Player : {currentPlayer.playerName}
             </div>
             <div>
                 Play Type : {board.currentPlayType != null ? board.currentPlayType : "Picking play type"}
