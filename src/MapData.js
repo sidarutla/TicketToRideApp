@@ -856,91 +856,91 @@ export const cities = [
         "point": [346,322]
     }, {
         "name": "Duluth",
-        "point": []
+        "point": [515,172]
     }, {
         "name": "El Paso",
-        "point": []
+        "point": [334,494]
     }, {
         "name": "Helena",
-        "point": []
+        "point": [293,176]
     }, {
         "name": "Houston",
-        "point": []
+        "point": [546,508]
     }, {
         "name": "Kansas City",
-        "point": []
+        "point": [507,307]
     }, {
         "name": "Las Vegas",
-        "point": []
+        "point": [108,453]
     }, {
         "name": "Little Rock",
-        "point": []
+        "point": [572,392]
     }, {
         "name": "Los Angeles",
-        "point": []
+        "point": [108,454]
     }, {
         "name": "Miami",
-        "point": []
+        "point": [843,534]
     }, {
         "name": "Montreal",
-        "point": []
+        "point": [816,48]
     }, {
         "name": "Nashville",
-        "point": []
+        "point": [674,345]
     }, {
         "name": "New Orleans",
-        "point": []
+        "point": [636,504]
     }, {
         "name": "New York",
-        "point": []
+        "point": [835,173]
     }, {
         "name": "Oklahoma City",
-        "point": []
+        "point": [487,388]
     }, {
         "name": "Omaha",
-        "point": []
+        "point": [484,259]
     }, {
         "name": "Phoenix",
-        "point": []
+        "point": [222,460]
     }, {
         "name": "Pittsburgh",
-        "point": []
+        "point": [753,215]
     }, {
         "name": "Portland",
-        "point": []
+        "point": [48,165]
     }, {
         "name": "Raleigh",
-        "point": []
+        "point": [786,321]
     }, {
         "name": "Saint Louis",
-        "point": []
+        "point": [588,308]
     }, {
         "name": "Saint St. Marie",
-        "point": []
+        "point": [636,105]
     }, {
         "name": "Salt Lake City",
-        "point": []
+        "point": [222,293]
     }, {
         "name": "San Francisco",
-        "point": []
+        "point": [35,354]
     }, {
         "name": "Santa Fe",
-        "point": []
+        "point": [341,409]
     }, {
         "name": "Seattle",
-        "point": []
+        "point": [68,118]
     }, {
         "name": "Toronto",
-        "point": []
+        "point": [736,128]
     }, {
         "name": "Vancouver",
-        "point": []
+        "point": [73,67]
     }, {
         "name": "Washington",
-        "point": []
+        "point": [843,259]
     }, {
         "name": "Winnipeg",
-        "point": []
+        "point": [407,60]
     }
 ]
 

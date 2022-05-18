@@ -14,7 +14,7 @@ function City(props) {
     const x1 = city.point[0];
     const y1 = city.point[1];
     return (
-         <Circle x={x1} y={y1} stroke={color} fill={color} radius={8} />
+        <Circle x={x1} y={y1} stroke={color} fill={color} radius={8} />
     )
 }
 
@@ -83,9 +83,9 @@ function MapArea(props) {
         return [ticket.source, ticket.destination];
     })
 
-    // const citiesDrawan = thePlayer.drawnTickets.flatMap((ticket)=>{
-    //     return [ticket.source, ticket.destination];
-    // })
+    const citiesDrawn = thePlayer.drawnTickets.flatMap((ticket)=>{
+        return [ticket.source, ticket.destination];
+    })
 
     let occupiedPaths = board.connections.flatMap(connection=>{
         const occupiedPaths = [];
@@ -195,14 +195,31 @@ function MapArea(props) {
               })
           }
           {
-              // (
-              //     <>
-              //     <City city={getCity("Seattle")} color={"red"}/>
-              //     <City city={getCity("Vancouver")} color={"green"}/>
-              //     <City city={getCity("Portland")} color={"blue"}/>
-              //     </>
-              // )
+              citiesToShow.map((city, index)=>{
+                  const theCity = getCity(city);
+                  if(theCity && theCity.point.length == 2) {
+                      return (
+                            <City key={index} city={theCity} color={thePlayer.playerColor}/>
+                      )
+                  } else {
+                      return null;
+                  }
+              })
           }
+
+          {
+              citiesDrawn.map((city, index)=>{
+                  const theCity = getCity(city);
+                  if(theCity && theCity.point.length == 2) {
+                      return (
+                            <City key={index} city={theCity} color={"white"}/>
+                      )
+                  } else {
+                      return null;
+                  }
+              })
+          }
+
           </>
       }
       </Layer>
