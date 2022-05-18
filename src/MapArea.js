@@ -62,7 +62,7 @@ function Pathway(props) {
 function MapArea(props) {
 
     const trackMode = false;
-    const cityMode = true;
+    const cityMode = false;
 
     const {showTickets=true}  = props;
     const [points, setPoints] = useState([]);
