@@ -55,7 +55,11 @@ function ActionArea(props) {
           {
               board.gameState === "started" && (
                   <div>
-                      <PlayerTickets board={board} playerID={playerID}/>
+                      <PlayerTickets
+                          board={board}
+                          onFlipTicket={props.onFlipTicket}
+                          ticketsState={props.ticketsState}
+                          playerID={playerID}/>
                   </div>
               )
           }

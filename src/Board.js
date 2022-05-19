@@ -22,6 +22,18 @@ function Board(props) {
     const [board, setBoard] = useState(null);
     const [refresh, setRefresh]= useState(false);
 
+    const [ticketsState, setTickesState] = useState({});
+    const handleFlipTicket = (ticketID) => {
+        const newState = {...ticketsState};
+        if(newState[ticketID]) {
+            newState[ticketID] = !newState[ticketID];
+        } else {
+            newState[ticketID] = true;
+        }
+        setTickesState(newState);
+    }
+
+
     if(board) {
         boardID = board.boardID;
     }
@@ -109,6 +121,8 @@ function Board(props) {
                           <ActionArea
                               playerID={playerID}
                               board={board}
+                              onFlipTicket={handleFlipTicket}
+                              ticketsState={ticketsState}
                               onLeaveBoard={props.onLeaveBoard}
                           />
                           </Grid>
@@ -116,6 +130,7 @@ function Board(props) {
                               <MapArea
                                   playerID={playerID}
                                   board={board}
+                                  ticketsState={ticketsState}
                               />
                           </Grid>
                       </Grid>

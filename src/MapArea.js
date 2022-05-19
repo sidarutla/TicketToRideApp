@@ -64,13 +64,12 @@ function MapArea(props) {
     const trackMode = false;
     const cityMode = false;
 
-    const {showTickets=true}  = props;
     const [points, setPoints] = useState([]);
     const [tracks, setTracks] = useState([]);
 
     const width = 900;
     const height = 600
-    const {board, playerID} = props;
+    const {board, playerID, ticketsState} = props;
 
     const thePlayer = getPlayer(board, playerID);
 
@@ -79,7 +78,7 @@ function MapArea(props) {
     //Group the tickets drawan same.. but give striped...or glowing background these pairs..
     //Both of them should be shown only when showTickets is on...
     //Combie with the show tickets option...
-    const citiesToShow = thePlayer.tickets.flatMap((ticket)=>{
+    const citiesToShow = thePlayer.tickets.filter((ticket)=>ticketsState[ticket.ticketID] === true).flatMap((ticket)=>{
         return [ticket.source, ticket.destination];
     })
 
@@ -110,29 +109,28 @@ function MapArea(props) {
         }
         return occupiedPaths;
     })
-
-    let allCities = board.connections.reduce((uniqueList, connection)=>{
-        if(!uniqueList.includes(connection.source)){
-            uniqueList.push(connection.source);
-        }
-        if(!uniqueList.includes(connection.destination)){
-            uniqueList.push(connection.destination);
-        }
-        return uniqueList;
-    },[]);
-
-    const allCityJson = allCities.sort((c1, c2)=> c1.localeCompare(c2)).map((cityName)=>{
-        return {
-            name: cityName,
-            points:[]
-        }
-    })
-    // console.log("city json", JSON.stringify(allCityJson));
-
     occupiedPaths = occupiedPaths.filter(p=>p!=null)
     if(!occupiedPaths) {
         occupiedPaths = [];
     }
+
+    // let allCities = board.connections.reduce((uniqueList, connection)=>{
+    //     if(!uniqueList.includes(connection.source)){
+    //         uniqueList.push(connection.source);
+    //     }
+    //     if(!uniqueList.includes(connection.destination)){
+    //         uniqueList.push(connection.destination);
+    //     }
+    //     return uniqueList;
+    // },[]);
+    //
+    // const allCityJson = allCities.sort((c1, c2)=> c1.localeCompare(c2)).map((cityName)=>{
+    //     return {
+    //         name: cityName,
+    //         points:[]
+    //     }
+    // })
+    // console.log("city json", JSON.stringify(allCityJson));
 
     return (
       <Grid container justifyContent="center" spacing={2} onClick={(event)=>{
