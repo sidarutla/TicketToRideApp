@@ -25,7 +25,7 @@ function PlayerTickets(props) {
                     if(ticketsState[ticket.ticketID]) {
                         return (
                             <Grid item key={index}
-                            onClick={()=>handleFlipTicket(ticket)}>
+                            onClick={()=>props.onFlipTicket(ticket.ticketID)}>
                             <Paper style={{padding:"10px"}}>
                             {ticket.source}
                             <br/>
