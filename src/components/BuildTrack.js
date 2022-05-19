@@ -16,7 +16,9 @@ function BuildTrack(props) {
     const [pathway, setPathway] = useState(null);
     const [useLocos, setUseLocos] = useState(false);
     const [colorToUse, setColorToUse] = useState("");
+
     const [showColorToUse, setShowColorToUse] = useState(false);
+    const [showUseLocos, setShowUseLocos] = useState(true);
 
     const connectionOptions = board.connections.flatMap((connection)=>{
         const pathways = [];
@@ -70,7 +72,7 @@ function BuildTrack(props) {
     const currentPlayer = getCurrentPlayer(board);
     const cardsByColor = getCardsCountByColor(currentPlayer.cards);
 
-    const availableColors = Object.keys(cardsByColor).filter(color=>color!=="any").map((color)=>{
+    const availableColors = Object.keys(cardsByColor).map((color)=>{
         return {
             value:color,
             label:color
@@ -111,6 +113,14 @@ function BuildTrack(props) {
         buildTrack(playerID, board.boardID, connectionID, pathwayID, colorToUse, useLocos);
     }
 
+    const handleColorChange = (value) => {
+        setColorToUse(value);
+        if(value === "any") {
+            setUseLocos(false);
+            setShowUseLocos(false);
+        }
+    }
+
     const handleConnectionChange = (value) => {
         const theConnection = board.connections.find(c=>{
             if(c.pathway1 != null && c.pathway1.pathwayID === value) {
@@ -132,6 +142,7 @@ function BuildTrack(props) {
         setPathwayID(value);
         setConnectionID(theConnection.connectionID);
         setPathway(thePathway);
+        setShowUseLocos(true);
 
         if(thePathway && thePathway.color === "any") {
             setShowColorToUse(true);
@@ -171,7 +182,7 @@ function BuildTrack(props) {
                         showColorToUse && (
                             <Grid item xs={12}>
                                 <label htmlFor={"colorToUse"}>{"Color To Use:"}</label>
-                                <select name="colorToUse" id="colorToUse" value={colorToUse} onChange={(event)=>{setColorToUse(event.target.value)}}>
+                                <select name="colorToUse" id="colorToUse" value={colorToUse} onChange={(event)=>{handleColorChange(event.target.value)}}>
                                     {
                                         availableColors.map((color)=>{
                                             return (
@@ -184,10 +195,14 @@ function BuildTrack(props) {
                         )
                     }
 
-                    <Grid item xs={12}>
-                        <label htmlFor={"locosToUse"}>{"Use Locos:"}</label>
-                        <input type="checkbox" id={"useLocos"} name={"useLocos"} value={useLocos} onChange={(event)=>setUseLocos(!useLocos)}/>
-                    </Grid>
+                    {
+                        colorToUse !== "any" && (
+                            <Grid item xs={12}>
+                                <label htmlFor={"locosToUse"}>{"Use Locos:"}</label>
+                                <input type="checkbox" id={"useLocos"} name={"useLocos"} value={useLocos} onChange={(event)=>setUseLocos(!useLocos)}/>
+                            </Grid>
+                        )
+                    }
 
             </Grid>
 
