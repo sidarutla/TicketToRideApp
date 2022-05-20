@@ -103,8 +103,8 @@ function Board(props) {
                           //<Grid item xs={12}>Board Name : {board.boardName}</Grid>
                       }
 
-                      <Grid item xs={12}>
-                          <Grid item xs={12}>
+                      <Grid item xs={12} justifyContent="center">
+                          <Grid item xs={12} justifyContent="center">
                               {
                                   //<Grid item xs={12}>Players</Grid>
                               }
@@ -116,7 +116,7 @@ function Board(props) {
                           </Grid>
                       </Grid>
 
-                      <Grid container item xs={12}>
+                      <Grid container item xs={12} justifyContent="center">
                           <Grid container item lg={2}>
                           <ActionArea
                               playerID={playerID}
@@ -126,7 +126,7 @@ function Board(props) {
                               onLeaveBoard={props.onLeaveBoard}
                           />
                           </Grid>
-                          <Grid item lg={10} style={{padding:"30px"}} >
+                          <Grid item lg={10} style={{padding:"30px"}} justifyContent="center">
                               <MapArea
                                   playerID={playerID}
                                   board={board}

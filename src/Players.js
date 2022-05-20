@@ -9,7 +9,7 @@ function Player(props) {
     const {player, playerID, owningPlayerID} = props;
 
     return(
-        <Grid item container xs={3} lg={3} justifyContent="center">
+        <Grid item container xs={4} lg={2} justifyContent="center">
             <Item style={{width:'100%', backgroundColor:player.playerColor}}>
                 <Grid container justifyContent="center">
                     <Grid container justifyContent="center">
@@ -37,7 +37,7 @@ function Player(props) {
 function Players(props) {
     const {board, playerID} = props;
     return (
-        <Grid container item xs={12}>
+        <Grid container item xs={12} justifyContent="center" spacing={2}>
         {
             board.players.map((player, index)=>{
                 return (

@@ -10,7 +10,7 @@ function Cards(props) {
         return null;
     } else {
         return (
-            <Grid item container xs={12} direction="row">
+            <Grid item container xs={12} direction="row" style={{paddingTop:"30px"}}>
                 <Grid item xs={12}>
                     Open cards:
                 </Grid>
@@ -19,7 +19,7 @@ function Cards(props) {
                     fiveOpenCards.map((card, index)=>{
                         return (
                             <Grid item key={index}>
-                                <img src={card.gameColor + ".jpg"} width="25"/>
+                                <img src={card.gameColor + ".jpg"} width="40"/>
                             </Grid>
                         )
                     })

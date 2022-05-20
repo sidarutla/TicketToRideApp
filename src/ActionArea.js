@@ -36,13 +36,6 @@ function ActionArea(props) {
                 )
           }
 
-          {
-              board.gameState === "started" && (
-                  <div>
-                      <Cards board={board} playerID={playerID}/>
-                  </div>
-              )
-          }
 
 
           {
@@ -52,6 +45,16 @@ function ActionArea(props) {
                   </div>
               )
           }
+
+
+          {
+              board.gameState === "started" && (
+                  <div>
+                      <Cards board={board} playerID={playerID}/>
+                  </div>
+              )
+          }
+
           {
               board.gameState === "started" && (
                   <div>

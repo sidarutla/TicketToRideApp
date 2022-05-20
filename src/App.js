@@ -1,10 +1,16 @@
 import React, {useState} from 'react';
 
+import { createTheme, ThemeProvider, useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
+
+
 import './App.css';
 
 import Board from './Board';
 import BoardSelector from './BoardSelector';
 import PlayerSelector from './PlayerSelector';
+
+const theme = createTheme();
 
 function App() {
     const [playerSelected, setPlayerSelected] = useState(false);
@@ -68,4 +74,10 @@ function App() {
 
 }
 
-export default App;
+export default function ThemedApp() {
+    return (
+        <ThemeProvider theme={theme}>
+            <App/>
+        </ThemeProvider>
+    );
+}

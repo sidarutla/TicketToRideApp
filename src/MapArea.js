@@ -4,43 +4,48 @@ import React, {useState} from 'react';
 import { Stage, Layer, Rect, Circle} from 'react-konva';
 
 import Grid from '@mui/material/Grid';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 import {getConnection, getCity} from "./MapData";
 import {getPlayer} from './boardutil'
 
 
 function City(props) {
-    const {city, color} = props;
-    const x1 = city.point[0];
-    const y1 = city.point[1];
+    const {city, color, resizeFactor} = props;
+    const radius = 8 * resizeFactor;
+    const x1 = city.point[0]*resizeFactor;
+    const y1 = city.point[1]*resizeFactor;
     return (
-        <Circle x={x1} y={y1} stroke={color} fill={color} radius={8} />
+        <Circle x={x1} y={y1} stroke={color} fill={color} radius={radius} />
     )
 }
 
 
 function Track(props) {
-    const {track, color} = props;
-    const x1 = track[0];
-    const y1 = track[1];
-    const x2 = track[2];
-    const y2 = track[3];
+    const {track, color, resizeFactor} = props;
+    const rectWidth = 36 * resizeFactor;
+    const rectHeight = 8 * resizeFactor;
+    const x1 = track[0]*resizeFactor;
+    const y1 = track[1]*resizeFactor;
+    const x2 = track[2]*resizeFactor;
+    const y2 = track[3]*resizeFactor;
     var angleDeg = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
     const x = x1;
     const y = y1;
     return (
-         <Rect y={y} x={x} width={40} height={8} rotation={angleDeg} fill={color} />
+         <Rect y={y} x={x} width={rectWidth} height={rectHeight} rotation={angleDeg} fill={color} />
     )
 }
 
 function Tracks(props) {
-    const {tracks, color} = props;
+    const {tracks, color, resizeFactor} = props;
     return (
         <>
             {
                 tracks.map((track, index)=>{
                     return (
-                        <Track key={index} track={track} color={color}/>
+                        <Track key={index} track={track} color={color} resizeFactor={resizeFactor}/>
                     )
                 })
             }
@@ -49,9 +54,9 @@ function Tracks(props) {
 }
 
 function Pathway(props) {
-    const {pathway, color} = props;
+    const {pathway, color, resizeFactor} = props;
     if(pathway) {
-        return <Tracks tracks={pathway} color={color}/>
+        return <Tracks tracks={pathway} color={color} resizeFactor={resizeFactor}/>
     } else {
         return null;
     }
@@ -61,14 +66,20 @@ function Pathway(props) {
 
 function MapArea(props) {
 
+    const theme = useTheme();
+    const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
+    const width = isSmallScreen ? 350 : 900;
+    const height = width*2/3
+    const resizeFactor = width/900;
+
+
+
     const trackMode = false;
     const cityMode = false;
 
     const [points, setPoints] = useState([]);
     const [tracks, setTracks] = useState([]);
 
-    const width = 900;
-    const height = 600
     const {board, playerID, ticketsState} = props;
 
     const thePlayer = getPlayer(board, playerID);
@@ -176,7 +187,7 @@ function MapArea(props) {
           {
               occupiedPaths.map((occupiedPath, index)=>{
                   return (
-                        <Pathway key={index} pathway={occupiedPath.tracks} color={occupiedPath.color}/>
+                        <Pathway key={index} pathway={occupiedPath.tracks} color={occupiedPath.color} resizeFactor={resizeFactor}/>
                   )
               })
           }
@@ -185,7 +196,7 @@ function MapArea(props) {
                   const theCity = getCity(city);
                   if(theCity && theCity.point.length == 2) {
                       return (
-                            <City key={index} city={theCity} color={thePlayer.playerColor}/>
+                            <City key={index} city={theCity} color={thePlayer.playerColor} resizeFactor={resizeFactor}/>
                       )
                   } else {
                       return null;
@@ -197,7 +208,7 @@ function MapArea(props) {
                   const theCity = getCity(city);
                   if(theCity && theCity.point.length == 2) {
                       return (
-                            <City key={index} city={theCity} color={thePlayer.playerColor}/>
+                            <City key={index} city={theCity} color={thePlayer.playerColor} resizeFactor={resizeFactor}/>
                       )
                   } else {
                       return null;
@@ -210,7 +221,7 @@ function MapArea(props) {
                   const theCity = getCity(city);
                   if(theCity && theCity.point.length == 2) {
                       return (
-                            <City key={index} city={theCity} color={"white"}/>
+                            <City key={index} city={theCity} color={"white"} resizeFactor={resizeFactor}/>
                       )
                   } else {
                       return null;
