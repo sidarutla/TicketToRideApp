@@ -27,7 +27,8 @@
     "build": "env-cmd -f .env.ttr.prod react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "scp -pr build keerthi@pandu.aphetech.com:/opt/sites/ttrapp"
+    "deploy": "scp -pr build keerthi@pandu.aphetech.com:/opt/sites/ttrapp",
+    "deploy-qa": "scp -pr build keerthi@pandu.aphetech.com:/opt/sites/ttrappqa"
   },
   "eslintConfig": {
     "extends": [
