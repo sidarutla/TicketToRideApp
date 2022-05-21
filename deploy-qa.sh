@@ -1,6 +1,6 @@
 git pull
 npm install
-npm run build
+npm run build-qa
 
 now=`date +"%m-%d-%y-%H-%M-%S"`
 echo $now
@@ -8,4 +8,3 @@ echo $now
 ssh keerthi@pandu.aphetech.com "mv /opt/sites/ttrappqa /opt/sites/ttrappiqa-$now"
 
 npm run deploy-qa
-
