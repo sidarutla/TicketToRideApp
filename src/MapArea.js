@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 
 
 import { Stage, Layer, Rect, Circle} from 'react-konva';
@@ -86,23 +86,26 @@ function MapArea(props) {
 
     const thePlayer = getPlayer(board, playerID);
 
+    useEffect(()=>{
+        const thePlayer = getPlayer(board, playerID);
+        if(thePlayer) {
+            const cities = thePlayer.tickets.filter((ticket)=>ticketsState[ticket.ticketID] === true).flatMap((ticket)=>{
+                return [ticket.source, ticket.destination];
+            })
+            setCitiesToShow(cities);
+
+            const newCities = thePlayer.drawnTickets.flatMap((ticket)=>{
+                return [ticket.source, ticket.destination];
+            })
+            setCitiesDrawn(newCities)
+        }
+    },[board, playerID,ticketsState])
+
 
     //Group have tickets by pairs.. and give a number to the route...
     //Group the tickets drawan same.. but give striped...or glowing background these pairs..
     //Both of them should be shown only when showTickets is on...
     //Combie with the show tickets option...
-    if(thePlayer) {
-        const cities = thePlayer.tickets.filter((ticket)=>ticketsState[ticket.ticketID] === true).flatMap((ticket)=>{
-            return [ticket.source, ticket.destination];
-        })
-        setCitiesToShow(cities);
-
-        const newCities = thePlayer.drawnTickets.flatMap((ticket)=>{
-            return [ticket.source, ticket.destination];
-        })
-        setCitiesDrawn(newCities)
-
-    }
 
 
     let occupiedPaths = board.connections.flatMap(connection=>{
