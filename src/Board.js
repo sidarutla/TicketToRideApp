@@ -117,7 +117,7 @@ function Board(props) {
                       </Grid>
 
                       <Grid container item xs={12} justifyContent="center">
-                          <Grid container item lg={2}>
+                          <Grid container item lg={3}>
                           <ActionArea
                               playerID={playerID}
                               board={board}
@@ -126,7 +126,7 @@ function Board(props) {
                               onLeaveBoard={props.onLeaveBoard}
                           />
                           </Grid>
-                          <Grid item lg={10} style={{padding:"30px"}} justifyContent="center">
+                          <Grid item lg={9} style={{padding:"30px"}} justifyContent="center">
                               <MapArea
                                   playerID={playerID}
                                   board={board}
