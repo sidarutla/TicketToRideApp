@@ -79,6 +79,8 @@ function MapArea(props) {
 
     const [points, setPoints] = useState([]);
     const [tracks, setTracks] = useState([]);
+    const [citiesToShow, setCitiesToShow] = useState([])
+    const [citiesDrawn, setCitiesDrawn] = useState([])
 
     const {board, playerID, ticketsState} = props;
 
@@ -89,13 +91,19 @@ function MapArea(props) {
     //Group the tickets drawan same.. but give striped...or glowing background these pairs..
     //Both of them should be shown only when showTickets is on...
     //Combie with the show tickets option...
-    const citiesToShow = thePlayer.tickets.filter((ticket)=>ticketsState[ticket.ticketID] === true).flatMap((ticket)=>{
-        return [ticket.source, ticket.destination];
-    })
+    if(thePlayer) {
+        const cities = thePlayer.tickets.filter((ticket)=>ticketsState[ticket.ticketID] === true).flatMap((ticket)=>{
+            return [ticket.source, ticket.destination];
+        })
+        setCitiesToShow(cities);
 
-    const citiesDrawn = thePlayer.drawnTickets.flatMap((ticket)=>{
-        return [ticket.source, ticket.destination];
-    })
+        const newCities = thePlayer.drawnTickets.flatMap((ticket)=>{
+            return [ticket.source, ticket.destination];
+        })
+        setCitiesDrawn(newCities)
+
+    }
+
 
     let occupiedPaths = board.connections.flatMap(connection=>{
         const occupiedPaths = [];
