@@ -68,7 +68,7 @@ function MapArea(props) {
 
     const theme = useTheme();
     const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
-    const width = isSmallScreen ? 350 : 900;
+    const width = isSmallScreen ? 350 : 800;
     const height = width*2/3
     const resizeFactor = width/900;
 
@@ -155,7 +155,7 @@ function MapArea(props) {
     // console.log("city json", JSON.stringify(allCityJson));
 
     return (
-      <Grid container justifyContent="center" spacing={2} onClick={(event)=>{
+      <Grid container justifyContent="flex-end" spacing={2} onClick={(event)=>{
               if(!trackMode && !cityMode){
                   return;
               }
