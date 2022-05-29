@@ -12,7 +12,7 @@ import TableBody from '@mui/material/TableBody';
 import Paper from '@mui/material/Paper';
 
 
-function Winner(props) {
+function LeaderBoard(props) {
     const {board, playerID} = props;
     const {players} = board;
 
@@ -29,7 +29,12 @@ function Winner(props) {
             ranking:i,
             name:gp.playerName,
             score:gp.score,
-            scoresBreakDown:[]
+            scoresBreakDown:[
+                {label:"Tracks", points:gp.scoreFromTracks},
+                {label:"Ticket Finished", points:gp.scoreFromFinishedTickets},
+                {label:"Tickets Unfinished", points:gp.scoreFromUnfinishedTickets},
+                {label:"Longest Route", points:0},
+            ]
         }
     })
 
@@ -65,20 +70,18 @@ function Winner(props) {
                           <TableCell align="right">{row.name}</TableCell>
                           <TableCell align="right">{row.score}</TableCell>
                           <TableCell align="right">{
-                                  (<Grid>
-                                      <Grid>
-                                          Tracks:{row.scoresBreakDown['Tracks']}
-                                      </Grid>
-                                      <Grid>
-                                          Finished Tickets:{row.scoresBreakDown['Finished Tickets']}
-                                      </Grid>
-                                      <Grid>
-                                          Unfinished Tickets:{row.scoresBreakDown['Unfinished Tickets']}
-                                      </Grid>
-                                      <Grid>
-                                          Longest Route:{row.scoresBreakDown['Longest Route']}
-                                      </Grid>
-                                  </Grid>)
+                                  (<Table>
+                                      {
+                                          row.scoresBreakDown.map((scoresBreakDown, index)=>{
+                                              return (
+                                                  <TableRow key={index}>
+                                                      <TableCell>{scoresBreakDown.label}</TableCell>
+                                                      <TableCell>{scoresBreakDown.points}</TableCell>
+                                                  </TableRow>
+                                              )
+                                          })
+                                      }
+                                  </Table>)
                               }</TableCell>
                         </TableRow>
                       ))}
@@ -130,4 +133,4 @@ function Winner(props) {
     )
 }
 
-export default Winner;
+export default LeaderBoard;

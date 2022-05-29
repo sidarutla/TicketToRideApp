@@ -8,7 +8,7 @@ import PlayerTickets from './components/PlayerTickets';
 import PlayerCards from './components/PlayerCards';
 import Cards from './components/Cards';
 import Play from './components/Play';
-import Winner from './components/Winner';
+import LeaderBoard from './components/LeaderBoard';
 
 function ActionArea(props) {
 
@@ -76,7 +76,7 @@ function ActionArea(props) {
 
           {
               board.gameState === "finished" && (
-                  <Winner board={board} playerID={playerID}/>
+                  <LeaderBoard board={board} playerID={playerID}/>
               )
           }
         </Grid>
