@@ -18,9 +18,13 @@ function Cards(props) {
                 {
                     fiveOpenCards.map((card, index)=>{
                         return (
-                            <Grid item key={index}>
-                                <img src={card.gameColor + ".jpg"} width="40"/>
-                            </Grid>
+                            {
+                                card && (
+                                    <Grid item key={index}>
+                                        <img src={card.gameColor + ".jpg"} width="40"/>
+                                    </Grid>
+                                )
+                            }
                         )
                     })
                 }

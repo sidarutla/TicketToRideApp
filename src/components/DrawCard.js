@@ -30,12 +30,16 @@ function DrawCard(props) {
             {
                 fiveOpenCards.map((card, index)=>{
                     return (
-                        <Grid item key={index} onClick={()=>handleDrawCard(index)}>
-                            <img src={card.gameColor + ".jpg"} width="40"/>
-                            <Grid>
-                            {card.gameColor === "any" ? "Loco" : card.gameColor.charAt(0).toUpperCase() + card.gameColor.slice(1) }
-                            </Grid>
-                        </Grid>
+                        {
+                            card && (
+                                <Grid item key={index} onClick={()=>handleDrawCard(index)}>
+                                    <img src={card.gameColor + ".jpg"} width="40"/>
+                                    <Grid>
+                                    {card.gameColor === "any" ? "Loco" : card.gameColor.charAt(0).toUpperCase() + card.gameColor.slice(1) }
+                                    </Grid>
+                                </Grid>
+                            )
+                        }
                     )
                 })
             }
