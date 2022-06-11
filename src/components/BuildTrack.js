@@ -9,6 +9,8 @@ import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
 
 import {getCurrentPlayer, getCardsCountByColor} from '../boardutil'
 
@@ -163,7 +165,7 @@ function BuildTrack(props) {
                 {errorMessage && (<div style={{color:"red"}}>{errorMessage}</div>) }
             </Grid>
 
-            <Grid item xs={12} container justifyContent="center">
+            <Grid item xs={12} container justifyContent="center" spacing={2}>
                     <Grid item container xs={12} justifyContent="center" alignItems={"center"}>
                         
                         <Autocomplete
@@ -216,18 +218,18 @@ function BuildTrack(props) {
 
             </Grid>
 
-            <Grid item xs={12}>
-                <button
-                  type="submit"
-                  onClick={()=>{handleBuildTrack()}}>
-                  Claim Route
-                </button>
+            <Grid item xs={12} container justifyContent="center">
+                <Stack direction="row" spacing={2}>
+                <Button variant="outlined" color="secondary"
+                    onClick={()=>{handleResetPlayType()}}>
+                    Change Play Type
+                </Button>
 
-                <button
-                  type="submit"
-                  onClick={()=>{handleResetPlayType()}}>
-                  Change Play Type
-                </button>
+                <Button variant="contained" color="primary"
+                    onClick={()=>{handleBuildTrack()}}>
+                    Build Track
+                </Button>
+                </Stack>
             </Grid>
         </Grid>
     )

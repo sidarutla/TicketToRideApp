@@ -1,6 +1,11 @@
 import React, {useState, useEffect} from 'react';
 
 import Grid from '@mui/material/Grid';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+
 
 import {getCurrentPlayer} from '../boardutil'
 
@@ -12,7 +17,6 @@ function ReturnTickets(props) {
     const currentPlayer = getCurrentPlayer(board);
     const [ticketList, setTicketList] = useState([])
 
-
     useEffect(()=>{
         const selectableTickets = currentPlayer.drawnTickets.map(ticket=>{
             return {...ticket, selected:false}
@@ -22,7 +26,7 @@ function ReturnTickets(props) {
 
     const handleTicketSelection = (i) => (event) => {
         const newTicketList = [...ticketList];
-        newTicketList[i].selected = !newTicketList[i].selected;
+        newTicketList[i].selected = event.target.checked
         setTicketList(newTicketList);
     }
 
@@ -48,13 +52,13 @@ function ReturnTickets(props) {
     }
 
     return (
-        <Grid>
+        <Grid container justifyContent={"center"}>
 
             <Grid style={{color:"red"}}>
                 {errorMessage}
             </Grid>
 
-            <Grid>
+            <Grid item container justifyContent={"center"}>
                 Select the tickets to return:
             </Grid>
 
@@ -65,20 +69,19 @@ function ReturnTickets(props) {
                     <Grid item container xs={12} justifyContent="center" style={{paddingTop:"20px", paddingBottom:"20px"}}>
                         {
                             ticketList.map((ticket, index)=>{
+                                const ticketLabel = ticket.source + " - " + ticket.destination + " (" + ticket.value + ")"
                             return (
-                                <Grid item container key={index}>
-                                    <Grid item>
-                                        <div class="checkbox checkbox-circle checkbox-color-scheme">
-                                            <label class="checkbox-checked">
-                                                <input type="checkbox" value={ticket.ticketID} checked={ticket.selected} onChange={handleTicketSelection(index)}/> <span class="label-text"></span>
-                                            </label>
-                                        </div>
+                                <Grid item container key={index} justifyContent={"center"}>
+                                    <Grid item>                                 
+                                        <FormControlLabel 
+                                            control={
+                                                <Checkbox 
+                                                    name={"selectedTickets"}
+                                                    value={ticket.ticketID}
+                                                    onChange={ handleTicketSelection(index)}
+                                                />} 
+                                                label={ticketLabel} labelPlacement="end" />
                                     </Grid>
-                                    <Grid item>
-                                        {ticket.source} - {ticket.destination} : {ticket.value}
-                                    </Grid>
-
-
                                 </Grid>
                             )
                         })
@@ -88,11 +91,14 @@ function ReturnTickets(props) {
             }
 
 
-            <button
-              type="submit"
-              onClick={()=>{handleReturnTickets()}}>
-              Return Tickets
-            </button>
+            <Grid item xs={12} container justifyContent="center">
+                <Stack direction="row" spacing={2}>
+                <Button variant="contained" color="primary"
+                    onClick={()=>{handleReturnTickets()}}>
+                    Return Tickets
+                </Button>
+                </Stack>
+            </Grid>
         </Grid>
     )
 }

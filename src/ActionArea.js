@@ -1,6 +1,9 @@
 import React from 'react';
 
 import Grid from '@mui/material/Grid';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
+
 
 import {startPlay} from './lib';
 
@@ -27,12 +30,19 @@ function ActionArea(props) {
           {
               board.gameState === "initializing" && board.owningPlayerID === playerID &&
               (
-                  <button
-                    type="submit"
-                    disabled={board.players.length < 2 ? true : false}
-                    onClick={()=>{
-                    startPlay(playerID, board.boardID)
-                    }}>Start</button>
+
+                <Grid item xs={12} container justifyContent="center">
+                    <Stack direction="row" spacing={2}>
+
+                        <Button variant="contained" color="primary"
+                            disabled={board.players.length < 2 ? true : false}
+                            onClick={() => { startPlay(playerID, board.boardID) }}
+                        >
+                            Start
+                        </Button>
+                    </Stack>
+                </Grid>
+
                 )
           }
 
@@ -81,8 +91,17 @@ function ActionArea(props) {
           }
         </Grid>
 
-        <Grid item>
-            <button type="submit" onClick={()=>{props.onLeaveBoard()}}>Leave</button>
+        <Grid item container justifyContent={"center"}>
+            <Stack direction="row" spacing={2}>
+
+                <Button variant="outlined" color="secondary"
+                    disabled={board.players.length < 2 ? true : false}
+                    onClick={()=>{props.onLeaveBoard()}}
+                >
+                    Leave
+                </Button>
+            </Stack>            
+            
         </Grid>
 
       </Grid>

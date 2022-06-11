@@ -1,4 +1,7 @@
 import Grid from '@mui/material/Grid';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
+
 
 import {pickPlay} from '../lib';
 
@@ -27,30 +30,26 @@ function PickPlayType(props) {
                 What would you like to do?
             </Grid>
 
-            <Grid item container xs={12} spacing={1} justifyContent="center">
-                <Grid item>
-                <button
-                  type="submit"
-                  onClick={()=>{handlePickPlayType(playerID, board.boardID, "drawTickets")}}>
-                  Draw Tickets
-                </button>
-                </Grid>
-                <Grid item>
-                <button
-                  type="submit"
-                  disabled={board.round === 1 ? true : false}
-                  onClick={()=>{handlePickPlayType(playerID, board.boardID, "drawCards")}}>
-                  Draw Cards
-                </button>
-                </Grid>
-                <Grid item>
-                <button
-                  type="submit"
-                  disabled={board.round === 1 ? true : false}
-                  onClick={()=>{handlePickPlayType(playerID, board.boardID, "buildTracks")}}>
-                  Build Tracks
-                </button>
-                </Grid>
+            <Grid item xs={12} container justifyContent="center">
+                <Stack direction="row" spacing={2}>
+                <Button variant="contained" color="primary"
+                    onClick={()=>{handlePickPlayType(playerID, board.boardID, "drawTickets")}}>
+                    Draw Tickets
+                </Button>
+
+                <Button variant="contained" color="primary"
+                    disabled={board.round === 1 ? true : false}
+                    onClick={()=>{handlePickPlayType(playerID, board.boardID, "drawCards")}}>
+                    Draw Cards
+                </Button>
+
+                <Button variant="contained" color="primary"
+                    disabled={board.round === 1 ? true : false}
+                    onClick={()=>{handlePickPlayType(playerID, board.boardID, "buildTracks")}}>
+                    Build Track
+                </Button>
+
+                </Stack>
             </Grid>
         </Grid>
     )

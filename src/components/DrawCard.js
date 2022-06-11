@@ -2,6 +2,9 @@
 import React, {useState} from 'react';
 
 import Grid from '@mui/material/Grid';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
+
 
 import {drawCard, resetPlayType} from '../lib';
 
@@ -55,12 +58,13 @@ function DrawCard(props) {
             }
             </Grid>
 
-            <Grid item xs={12}>
-                <button
-                  type="submit"
-                  onClick={()=>{handleResetPlayType()}}>
-                  Change Play Type
-                </button>
+            <Grid item xs={12} container justifyContent="center">
+                <Stack direction="row" spacing={2}>
+                <Button variant="outlined" color="secondary"
+                    onClick={()=>{handleResetPlayType()}}>
+                    Change Play Type
+                </Button>
+                </Stack>
             </Grid>
 
         </Grid>
