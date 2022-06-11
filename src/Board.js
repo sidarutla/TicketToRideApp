@@ -22,7 +22,7 @@ function Board(props) {
     const [board, setBoard] = useState(null);
     const [refresh, setRefresh]= useState(false);
 
-    const [ticketsState, setTickesState] = useState({});
+    const [ticketsState, setTicketState] = useState({});
     const handleFlipTicket = (ticketID) => {
         const newState = {...ticketsState};
         if(newState[ticketID]) {
@@ -30,7 +30,7 @@ function Board(props) {
         } else {
             newState[ticketID] = true;
         }
-        setTickesState(newState);
+        setTicketState(newState);
     }
 
 
@@ -40,8 +40,8 @@ function Board(props) {
 
 
     useEffect(()=>{
-        const localplayerID = localStorage.getItem("playerID");
-        setPlayerID(localplayerID);
+        const localPlayerID = localStorage.getItem("playerID");
+        setPlayerID(localPlayerID);
     },[])
 
 

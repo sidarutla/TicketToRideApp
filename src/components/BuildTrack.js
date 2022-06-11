@@ -101,7 +101,7 @@ function BuildTrack(props) {
         }
 
         if(hasCards < tracksNeeded) {
-            setErrorMessage("You dont't have enough cards...");
+            setErrorMessage("You don't have enough cards");
             return;
         }
 

@@ -9,7 +9,7 @@ function PickPlayType(props) {
     const handlePickPlayType = (playerID, boardID, playType) => {
         if(playType === "drawTickets") {
             if(round !== 1) {
-                let result = confirm('Are you sure you want to drwa additional tickets?');
+                let result = confirm('Are you sure you want to draw additional tickets?');
                 if(result) {
                     pickPlay(playerID, boardID, playType);
                 }

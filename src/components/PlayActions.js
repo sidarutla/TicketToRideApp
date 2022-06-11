@@ -12,7 +12,7 @@ function PlayActions(props) {
     if(board.currentPlayType == null) {
         return (<PickPlayType board={board} playerID={playerID}/>)
     } else if(board.currentPlayType === "drawTickets") {
-        //show drawn tickets and ask the user to return 1 or 2 ticktes.
+        //show drawn tickets and ask the user to return 1 or 2 tickets.
         return (<ReturnTickets board={board} playerID={playerID}/>)
     } else if(board.currentPlayType === "drawCards") {
         //ask the user to pick one of the open five cards... and select.
