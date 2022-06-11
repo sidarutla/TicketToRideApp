@@ -1,11 +1,18 @@
 import React, {useState} from 'react';
 
 import Grid from '@mui/material/Grid';
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 
 import {getCurrentPlayer, getCardsCountByColor} from '../boardutil'
 
 import {buildTrack, resetPlayType} from '../lib';
-
 
 function BuildTrack(props) {
     const {board, playerID} = props;
@@ -46,16 +53,6 @@ function BuildTrack(props) {
             )
         }
         return pathways;
-
-        //
-        //
-        // const value = connection.connectionID;
-        // const isAvailable = (connection.pathway1 != null && connection.pathway1.open) ||  (connection.pathway2 != null && connection.pathway2.open)
-        // return {
-        //     label,
-        //     value,
-        //     isAvailable:true,
-        // };
     }).sort((c1, c2)=>{
         if (c1.label < c2.label) {
             return -1;
@@ -66,8 +63,7 @@ function BuildTrack(props) {
         return 0;
     })
 
-
-    connectionOptions.unshift({label:"Select a connection", value:"", isAvailable:true})
+    // connectionOptions.unshift({label:"Select a connection", value:"", isAvailable:true})
 
     const currentPlayer = getCurrentPlayer(board);
     const cardsByColor = getCardsCountByColor(currentPlayer.cards);
@@ -113,15 +109,18 @@ function BuildTrack(props) {
         buildTrack(playerID, board.boardID, connectionID, pathwayID, colorToUse, useLocos);
     }
 
-    const handleColorChange = (value) => {
+    const handleColorChange = (event) => {
+        const value = event.target.value;
         setColorToUse(value);
         if(value === "any") {
             setUseLocos(false);
             setShowUseLocos(false);
         }
-    }
+      };
+    
 
-    const handleConnectionChange = (value) => {
+    const handleConnectionChange = (selectedOption) => {
+        const value = selectedOption.value;
         const theConnection = board.connections.find(c=>{
             if(c.pathway1 != null && c.pathway1.pathwayID === value) {
                 return true;
@@ -164,33 +163,45 @@ function BuildTrack(props) {
                 {errorMessage && (<div style={{color:"red"}}>{errorMessage}</div>) }
             </Grid>
 
-            <Grid item xs={12}>
-                    <Grid item xs={12}>
-                        <label htmlFor="connectionID">Select a route:</label>
-                        <select name="connectionID" id="connectionID" value={pathwayID} onChange={(event)=>{handleConnectionChange(event.target.value)}}>
-                            {
-                                connectionOptions.map((connection, index)=>{
-                                    return (
-                                        <option key={connection.value}  value={connection.value} disabled={!connection.isAvailable}>{connection.label}</option>
-                                    )
-                                })
-                            }
-                        </select>
+            <Grid item xs={12} container justifyContent="center">
+                    <Grid item container xs={12} justifyContent="center" alignItems={"center"}>
+                        
+                        <Autocomplete
+                            name="connectionID"
+                            autoHighlight
+                            id="connectionID"
+                            sx={{width:500}}
+                            options={connectionOptions}
+                            renderOption={(props, option) => <li {...props} key={option.value}>{option.label}</li>}
+                            getOptionDisabled={option => !option.isAvailable}
+                            onChange={(event, newValue) => {
+                              handleConnectionChange(newValue)
+                            }}
+                            renderInput={(params) => <TextField {...params} label="Track" />}
+                        />
                     </Grid>
 
                     {
                         showColorToUse && (
-                            <Grid item xs={12}>
-                                <label htmlFor={"colorToUse"}>{"Color To Use:"}</label>
-                                <select name="colorToUse" id="colorToUse" value={colorToUse} onChange={(event)=>{handleColorChange(event.target.value)}}>
+                            <Grid item container xs={3} justifyContent="center" alignItems={"center"}>
+                                <FormControl fullWidth>
+                                    <InputLabel id="demo-simple-select-label">Color To Use:</InputLabel>
+                                <Select
+                                    labelId="colorToUse"
+                                    id="demo-simple-select"
+                                    value={colorToUse}
+                                    label="Color To Use:"
+                                    onChange={handleColorChange}
+                                >
                                     {
-                                        availableColors.map((color)=>{
+                                        availableColors.map((color) => {
                                             return (
-                                                <option key={color.value} value={color.value}>{color.label}</option>
+                                                <MenuItem key={color.value} value={color.value}>{color.label}</MenuItem>
                                             )
                                         })
                                     }
-                                </select>
+                                </Select>
+                                </FormControl>
                             </Grid>
                         )
                     }
@@ -198,8 +209,7 @@ function BuildTrack(props) {
                     {
                         colorToUse !== "any" && (
                             <Grid item xs={12}>
-                                <label htmlFor={"locosToUse"}>{"Use Locos:"}</label>
-                                <input type="checkbox" id={"useLocos"} name={"useLocos"} value={useLocos} onChange={(event)=>setUseLocos(!useLocos)}/>
+                                <FormControlLabel control={<Checkbox checked={useLocos} onChange={(event)=>setUseLocos(event.target.checked)}/>} label="Use Locos:" labelPlacement="start" />
                             </Grid>
                         )
                     }
