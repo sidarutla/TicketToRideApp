@@ -33,7 +33,7 @@ function LeaderBoard(props) {
                 {label:"Tracks", points:gp.scoreFromTracks},
                 {label:"Ticket Finished", points:gp.scoreFromFinishedTickets},
                 {label:"Tickets Unfinished", points:gp.scoreFromUnfinishedTickets},
-                {label:"Longest Route", points:0},
+                //{label:"Longest Route", points:0},
             ]
         }
     })
