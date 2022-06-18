@@ -22,3 +22,23 @@ export const getCardsCountByColor = (cards) => {
     },{});
     return cardsCountByColor;
 }
+
+
+export const getGroupedAndSortedCardArray = (cardsCountByColor) => {
+    const cardsArray = Object.keys(cardsCountByColor).map((key, index) =>{
+        return {
+            color:key,
+            count:cardsCountByColor[key]
+        }
+    }).sort((group1, group2)=>{
+        if (group1.color < group2.color) {
+            return -1;
+        }
+        if (group1.color > group2.color) {
+            return 1;
+        }
+        return 0;
+    })
+
+    return cardsArray;
+}
