@@ -790,12 +790,12 @@ export const connections = [{
         source: "New York",
         destination: "Boston",
         pathway1: [
-            [885, 117, 870, 141],
-            [867, 147, 853, 172]
-        ],
-        pathway2: [
             [875, 110, 859, 133],
             [857, 141, 842, 162]
+        ],
+        pathway2: [
+            [885, 117, 870, 141],
+            [867, 147, 853, 172]
         ],
     },
     {
