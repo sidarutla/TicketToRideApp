@@ -66,9 +66,23 @@ function Pathway(props) {
 
 function MapArea(props) {
 
-    const theme = useTheme();
-    const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
-    const width = isSmallScreen ? 350 : 800;
+    const [width, setWidth] = useState(100);
+    useEffect(()=>{
+        window.addEventListener("resize", ()=>{
+            setWidth(stageRef.current.offsetWidth);    
+        });
+    },[])
+
+    const stageRef = React.useRef(null);
+    
+
+    useEffect(()=>{
+        if(stageRef.current) {
+            console.log("widh", stageRef.current.offsetWidth);
+            setWidth(stageRef.current.offsetWidth);
+        }    
+    },[stageRef.current])
+
     const height = width*2/3
     const resizeFactor = width/900;
 
@@ -155,7 +169,7 @@ function MapArea(props) {
     // console.log("city json", JSON.stringify(allCityJson));
 
     return (
-      <Grid container justifyContent="flex-end" spacing={2} onClick={(event)=>{
+      <Grid container justifyContent="flex-end" ref={stageRef} onClick={(event)=>{
               if(!trackMode && !cityMode){
                   return;
               }
