@@ -4,8 +4,6 @@ import React, {useState, useEffect} from 'react';
 import { Stage, Layer, Rect, Circle} from 'react-konva';
 
 import Grid from '@mui/material/Grid';
-import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
 
 import {getConnection, getCity} from "./MapData";
 import {getPlayer} from './boardutil'
@@ -67,26 +65,23 @@ function Pathway(props) {
 function MapArea(props) {
 
     const [width, setWidth] = useState(100);
+    const stageRef = React.useRef(null);
+
+
     useEffect(()=>{
         window.addEventListener("resize", ()=>{
             setWidth(stageRef.current.offsetWidth);    
         });
     },[])
 
-    const stageRef = React.useRef(null);
-    
-
     useEffect(()=>{
         if(stageRef.current) {
-            console.log("widh", stageRef.current.offsetWidth);
             setWidth(stageRef.current.offsetWidth);
         }    
-    },[stageRef.current])
+    },[])
 
     const height = width*2/3
     const resizeFactor = width/900;
-
-
 
     const trackMode = false;
     const cityMode = false;
@@ -217,21 +212,21 @@ function MapArea(props) {
               })
           }
           {
-              cityMode && allCities.map((city, index)=>{
-                  const theCity = getCity(city);
-                  if(theCity && theCity.point.length == 2) {
-                      return (
-                            <City key={index} city={theCity} color={thePlayer.playerColor} resizeFactor={resizeFactor}/>
-                      )
-                  } else {
-                      return null;
-                  }
-              })
+            //   cityMode && allCities.map((city, index)=>{
+            //       const theCity = getCity(city);
+            //       if(theCity && theCity.point.length == 2) {
+            //           return (
+            //                 <City key={index} city={theCity} color={thePlayer.playerColor} resizeFactor={resizeFactor}/>
+            //           )
+            //       } else {
+            //           return null;
+            //       }
+            //   })
           }
           {
               citiesToShow.map((city, index)=>{
                   const theCity = getCity(city);
-                  if(theCity && theCity.point.length == 2) {
+                  if(theCity && theCity.point.length === 2) {
                       return (
                             <City key={index} city={theCity} color={thePlayer.playerColor} resizeFactor={resizeFactor}/>
                       )
@@ -244,7 +239,7 @@ function MapArea(props) {
           {
               citiesDrawn.map((city, index)=>{
                   const theCity = getCity(city);
-                  if(theCity && theCity.point.length == 2) {
+                  if(theCity && theCity.point.length === 2) {
                       return (
                             <City key={index} city={theCity} color={"white"} resizeFactor={resizeFactor}/>
                       )

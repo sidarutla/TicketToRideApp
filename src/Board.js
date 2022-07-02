@@ -117,7 +117,7 @@ function Board(props) {
                       </Grid>
 
                       <Grid container item xs={12} justifyContent="center">
-                          <Grid container item lg={3} xs={12}>
+                          <Grid container item lg={3} xs={12} style={{padding:"30px"}}>
                           <ActionArea
                               playerID={playerID}
                               board={board}
